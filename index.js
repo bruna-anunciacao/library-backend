@@ -4,7 +4,7 @@ const cors = require('cors');
 const userRoutes = require('./router/user')
 // App config
 const app = express();
-const sequelize = require('./db/conn')
+const { sequelize } = require('./models/index.js')
 
 // Middlewares
 app.use(express.json());
@@ -16,7 +16,7 @@ app.use('/auth', userRoutes)
 // DB config
 const port = process.env.PORT || 3000;
 sequelize
-    .sync()
+    .sync({alter: true})
     .then(() => {
         app.listen(port, () => {
             console.log(`Server is running on ${port} port`);
