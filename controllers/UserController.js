@@ -1,10 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const user = require("../models/User.js");
+const { User } = require("../models/index");
 
 const getUsers = async (req, res) => {
   try {
-    const users = await user.findAll();
+    const users = await User.findAll();
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -17,12 +17,12 @@ const createUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const existingUser = await user.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const newUser = await user.create({
+    const newUser = await User.create({
       name,
       type,
       email,
@@ -52,7 +52,7 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const existingUser = await user.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email } });
     if (!existingUser) {
       return res.status(401).json({
         status: "failed",
@@ -96,7 +96,7 @@ const changeUser = async (req, res) => {
     const { id } = req.params;
     const { name, email, type } = req.body;
 
-    const oldUser = await user.findByPk(id);
+    const oldUser = await User.findByPk(id);
     if (!oldUser) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -118,7 +118,7 @@ const changeUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedUser = await user.findByPk(id);
+    const deletedUser = await User.findByPk(id);
     if (!deletedUser) {
       return res.status(404).json({
         message: "User not found",

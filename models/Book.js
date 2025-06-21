@@ -31,11 +31,6 @@ const Book = sequelize.define("Book", {
   year: {
     type: DataTypes.STRING,
   },
-  exemplaryId: {
-    allowNull: false,
-    type: DataTypes.UUID,
-  },
-
 });
 
 module.exports = Book
