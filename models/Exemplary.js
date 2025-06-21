@@ -12,6 +12,10 @@ const Exemplary = sequelize.define("Exemplary", {
         allowNull: false,
         type: DataTypes.UUID,
     },
+    bookCode: {
+        allowNull: false,
+        type: DataTypes.STRING,
+    },
     status: {
         type: DataTypes.STRING,
     },
