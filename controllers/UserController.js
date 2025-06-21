@@ -77,6 +77,7 @@ const loginUser = async (req, res) => {
         id: existingUser.id,
         name: existingUser.name,
         email: existingUser.email,
+        type: existingUser.type,
       },
       process.env.SECRET,
       { expiresIn: "1h" }
