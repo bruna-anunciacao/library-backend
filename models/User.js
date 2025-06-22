@@ -9,11 +9,22 @@ const User = sequelize.define("User", {
         defaultValue: DataTypes.UUIDV4,
     },
     type: {
-        type: DataTypes.STRING,
-        require: true,
+        type: DataTypes.ENUM('Admin', 'Aluno Graduação', 'Aluno Pós Graduação', 'Professor'),
+        allowNull: false,
     },
     name: {
         type: DataTypes.STRING,
+        allowNull: false,
+    },
+    loanLimit: {
+        type: DataTypes.INTEGER,
+    },
+    numberLoans: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+    },
+    loanDueDate: {
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     email: {

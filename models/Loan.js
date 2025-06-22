@@ -33,7 +33,6 @@ const Loan = sequelize.define("Loan", {
   },
   exemplaryId: {
     type: DataTypes.UUID,
-    allowNull: false,
   }
 });
 

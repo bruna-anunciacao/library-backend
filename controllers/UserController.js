@@ -13,7 +13,7 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const { name, email, type, password } = req.body;
+    const { name, email, type, loanDueDate, loanLimit, numberLoans, password } = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -27,6 +27,9 @@ const createUser = async (req, res) => {
       type,
       email,
       password: hashedPassword,
+      loanDueDate,
+      loanLimit,
+      numberLoans,
     });
 
     const token = jwt.sign(
@@ -35,6 +38,9 @@ const createUser = async (req, res) => {
         name: newUser.name,
         email: newUser.email,
         type: newUser.type,
+        dueDate: newUser.loanDueDate,
+        limit: newUser.loanLimit,
+        number: newUser.numberLoans,
       },
       process.env.SECRET,
       { expiresIn: "1h" }
@@ -78,6 +84,9 @@ const loginUser = async (req, res) => {
         name: existingUser.name,
         email: existingUser.email,
         type: existingUser.type,
+        dueDate: existingUser.loanDueDate,
+        limit: existingUser.loanLimit,
+        number: existingUser.numberLoans,
       },
       process.env.SECRET,
       { expiresIn: "1h" }
@@ -127,8 +136,8 @@ const deleteUser = async (req, res) => {
     }
     await deletedUser.destroy();
     res.status(200).json({
-        message: 'User deleted successfully'
-    })
+      message: "User deleted successfully",
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

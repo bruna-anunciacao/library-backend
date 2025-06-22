@@ -1,3 +1,4 @@
+const { EmptyResultError } = require("sequelize");
 const { Exemplary, Book } = require("../models/index");
 
 const getExemplaries = async (req, res) => {
@@ -30,4 +31,16 @@ const createExemplary = async (req, res) => {
   }
 };
 
-module.exports = { getExemplaries, createExemplary };
+const changeExemplaryStatus = async (id, loanId, res) => {
+  try {
+      const exemplary = await Exemplary.findByPk(id);
+      exemplary.status = 'Emprestado';
+      exemplary.loanId = loanId;
+      await exemplary.save();
+      return;
+  } catch (err) {
+      return;
+  }
+}
+
+module.exports = { getExemplaries, createExemplary, changeExemplaryStatus };
